@@ -1,14 +1,32 @@
 import builders.StudentsBuilder;
 import entities.Studant;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main {
+    // 1.
+    public static void listStudentsPassed(String[] args) {
+        var allStudents = StudentsBuilder.getAllStudents();
+        List<Studant> passedStudents = allStudents.stream()
+                .filter(student -> (student.getTestOne() + student.getTestTwo() + student.getTestThree()) / 3.0 >= 7.0)
+                .collect(Collectors.toList());
+
+        System.out.println("Alunos que passaram:");
+        for (Studant student : passedStudents) {
+            float average = (student.getTestOne() + student.getTestTwo() + student.getTestThree()) / 3.0f;
+            System.out.println(student.getCode() + " - " + student.getName() + " : Média = " + average);
+        }
+    }
+
 
     public static void main(String[] args) {
-        var allStudents = StudentsBuilder.getAllStudents();
+        listStudentsPassed(args);
 
+    }
+}
         // Agora vamos as atividades
         /*
-
+        
         1. Recupere da lista os alunos que passaram de ano (nota minima 7.0).
             - Exiba os dados nesse formato: <código> - <nome> : Média = <nota>
         2. Recupere da lista os alunos que não passaram de ano.
@@ -30,5 +48,6 @@ public class Main {
             - Exiba os dados nesse formato: <posicao> - <código> - <nome> : Média = <nota>
 
          */
-    }
-}
+
+
+
