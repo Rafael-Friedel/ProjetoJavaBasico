@@ -18,21 +18,34 @@ public class Main {
         }
     }
 
+    // 2.
+    public static void listStudentsNotPassed(String[] args) {
+        var allStudents = StudentsBuilder.getAllStudents();
+        List<Studant> failedStudents = allStudents.stream()
+                .filter(student -> (student.getTestOne() + student.getTestTwo() + student.getTestThree()) / 3.0 < 7.0)
+                .collect(Collectors.toList());
+        System.out.println("Alunos que não passaram:");
+        for (Studant student : failedStudents) {
+            float average = (student.getTestOne() + student.getTestTwo() + student.getTestThree()) / 3.0f;
+            System.out.println(student.getCode() + " - " + student.getName() + " : Média = " + average + " (Faltou = " + (7 - average) + ")");
+        }
+    }
+
 
     public static void main(String[] args) {
         listStudentsPassed(args);
-
+        listStudentsNotPassed(args)
     }
 }
         // Agora vamos as atividades
         /*
-        
         1. Recupere da lista os alunos que passaram de ano (nota minima 7.0).
             - Exiba os dados nesse formato: <código> - <nome> : Média = <nota>
         2. Recupere da lista os alunos que não passaram de ano.
             - Exiba os dados nesse formato: <código> - <nome> : Média = <media> (Faltou = <nota_faltante>)
         3. Traga os alunos que tiraram a nota máxima (nota 10).
             - Exiba os dados nesse formato: <código> - <nome>
+
         4. Traga o aluno que tirou a menor nota, em caso de notas iguais, traga ambos os alunos.
             - Exiba os dados nesse formato: <código> - <nome> : Nota = <nota>
         5. Faça uma lista com top 3 notas de alunos. Em caso de notas iguais coloque todos na mesma posição.
