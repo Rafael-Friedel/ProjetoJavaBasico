@@ -31,10 +31,21 @@ public class Main {
         }
     }
 
+    // 3.
+    public static void findStudentsWithMaximumGrade(String[] args) {
+        var allStudents = StudentsBuilder.getAllStudents();
+        System.out.println("Alunos com nota máxima:");
+        for (Studant student : allStudents) {
+            if (student.getTestOne() == 10.0f || student.getTestTwo() == 10.0f || student.getTestThree() == 10.0f) {
+                System.out.println(student.getCode() + " - " + student.getName());
+            }
+        }
+    }
 
     public static void main(String[] args) {
         listStudentsPassed(args);
         listStudentsNotPassed(args)
+        findStudentsWithMaximumGrade(args)
     }
 }
         // Agora vamos as atividades
