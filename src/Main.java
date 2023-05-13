@@ -42,10 +42,93 @@ public class Main {
         }
     }
 
+    // 4.
+    public static void findStudentWithMinimumGrade(String[] args) {
+        var allStudents = StudentsBuilder.getAllStudents();
+        var minGrade = allStudents.stream()
+                .map(student -> (student.getTestOne() + student.getTestTwo() + student.getTestThree()) / 3.0f)
+                .min(Float::compare)                    .orElse(null);
+
+        System.out.println("Alunos com a nota mínima (" + minGrade + "):");
+        allStudents.stream()
+                .filter(student -> (student.getTestOne() + student.getTestTwo() + student.getTestThree()) / 3.0f == minGrade)
+                .forEach(student -> System.out.println(student.getCode() + " - " + student.getName() + " : Nota = " + minGrade));
+    }
+
+    // 5.
+    public static void listTopThreeStudents(String[] args) {
+        var allStudents = StudentsBuilder.getAllStudents();
+        List<Studant> topThreeStudents = allStudents.stream()
+                .sorted((s1, s2) -> Float.compare(s2.getTestOne() + s2.getTestTwo() + s2.getTestThree(), s1.getTestOne() + s1.getTestTwo() + s1.getTestThree()))
+                .limit(3)
+                .collect(Collectors.toList());
+
+        System.out.println("Top 3 notas dos alunos:");
+
+        float previousGrade = -1;
+        int position = 1;
+
+        for (Studant student : topThreeStudents) {
+            float average = (student.getTestOne() + student.getTestTwo() + student.getTestThree()) / 3.0f;
+            if (average != previousGrade) {
+                position++;
+            }
+            System.out.println(position + "º - " + student.getName() + " : Nota = " + average);
+            previousGrade = average;
+        }
+    }
+
+    // 6.
+    public static void listBottomThreeStudents(String[] args) {
+        var allStudents = StudentsBuilder.getAllStudents();
+        List<Studant> sortedStudents = allStudents.stream()
+                .sorted(Comparator.comparingDouble(student -> (student.getTestOne() + student.getTestTwo() + student.getTestThree()) / 3.0))
+                .collect(Collectors.toList());
+        System.out.println("3 menores notas dos alunos:");
+    
+        float previousGrade = -1;
+        int position = 0;
+        for (Studant student : sortedStudents) {
+            float average = (student.getTestOne() + student.getTestTwo() + student.getTestThree()) / 3.0f;
+            if (average != previousGrade) {
+                position++;
+                if (position > 3) {
+                    break;
+                }
+            }
+            System.out.println(position + "º - " + student.getName() + " : Nota = " + average);
+            previousGrade = average;
+        }
+    }
+
+    // 7. 
+    public static void listStudentsOrderedByGrade(String[] args) {
+        var allStudents = StudentsBuilder.getAllStudents();
+        List<Studant> sortedStudents = allStudents.stream()
+                .sorted((s1, s2) -> Float.compare(s2.getTestOne() + s2.getTestTwo() + s2.getTestThree(), s1.getTestOne() + s1.getTestTwo() + s1.getTestThree()))
+                .collect(Collectors.toList());
+        System.out.println("Alunos ordenados por nota:");
+    
+        float previousGrade = -1;
+        int position = 0;
+        for (Studant student : sortedStudents) {
+            float average = (student.getTestOne() + student.getTestTwo() + student.getTestThree()) / 3.0f;
+            if (average != previousGrade) {
+                position++;
+            }
+            System.out.println(position + "º - " + student.getCode() + " - " + student.getName() + " : Média = " + average);
+            previousGrade = average;
+        }
+    }
+
     public static void main(String[] args) {
         listStudentsPassed(args);
         listStudentsNotPassed(args);
         findStudentsWithMaximumGrade(args);
+        findStudentWithMinimumGrade(args);
+        listTopThreeStudents(args);
+        listBottomThreeStudents(args);
+        listStudentsOrderedByGrade(args);
     }
 }
         // Agora vamos as atividades
