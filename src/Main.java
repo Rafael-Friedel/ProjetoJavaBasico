@@ -44,8 +44,8 @@ public class Main {
 
     public static void main(String[] args) {
         listStudentsPassed(args);
-        listStudentsNotPassed(args)
-        findStudentsWithMaximumGrade(args)
+        listStudentsNotPassed(args);
+        findStudentsWithMaximumGrade(args);
     }
 }
         // Agora vamos as atividades
