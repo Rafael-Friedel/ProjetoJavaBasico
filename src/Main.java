@@ -2,7 +2,11 @@ import builders.StudentsBuilder;
 import entities.Studant;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Comparator;
+
 
 public class Main {
     // 1.
@@ -57,50 +61,77 @@ public class Main {
     }
 
     // 5.
-    public static void listTopThreeStudents(String[] args) {
-        var allStudents = StudentsBuilder.getAllStudents();
-        List<Studant> topThreeStudents = allStudents.stream()
-                .sorted((s1, s2) -> Float.compare(s2.getTestOne() + s2.getTestTwo() + s2.getTestThree(), s1.getTestOne() + s1.getTestTwo() + s1.getTestThree()))
-                .limit(3)
-                .collect(Collectors.toList());
+    public static void listThreeTopGrades(String[] args) {
+        List<Studant> students = StudentsBuilder.getAllStudents();
 
-        System.out.println("Top 3 notas dos alunos:");
-
-        float previousGrade = -1;
-        int position = 0;
-
-        for (Studant student : topThreeStudents) {
-            float average = (student.getTestOne() + student.getTestTwo() + student.getTestThree()) / 3.0f;
-            if (average != previousGrade) {
-                position++;
+        Map<Float, List<String>> scoreMap = new HashMap<>();
+        for (Studant student : students) {
+            scoreMap.computeIfAbsent(student.getTestOne(), k -> new ArrayList<>()).add(student.getName());
+            scoreMap.computeIfAbsent(student.getTestTwo(), k -> new ArrayList<>()).add(student.getName());
+            scoreMap.computeIfAbsent(student.getTestThree(), k -> new ArrayList<>()).add(student.getName());
+        }
+    
+        List<Float> orderedScores = scoreMap.keySet().stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        int position = 1;
+        System.out.println("Top 3 alunos com maior nota!");
+        for (Float score : orderedScores) {
+            List<String> studentsWithScore = scoreMap.get(score);
+            if (position > 3) {
+                break;
             }
-            System.out.println(position + "º - " + student.getName() + " : Nota = " + average);
-            previousGrade = average;
+            if (studentsWithScore.size() == 1) {
+                System.out.printf("%dº %s = nota %.1f\n", position++, studentsWithScore.get(0), score);
+            } else {
+                System.out.printf("%dº ", position);
+                for (int i = 0; i < studentsWithScore.size(); i++) {
+                    System.out.printf("%s = nota %.1f", studentsWithScore.get(i), score);
+                    if (i < studentsWithScore.size() - 1) {
+                        System.out.println("");
+                        System.out.print(" - ");
+                    }
+                }
+                System.out.println();
+                position += studentsWithScore.size();
+            }
         }
     }
 
     // 6.
-    public static void listBottomThreeStudents(String[] args) {
-        var allStudents = StudentsBuilder.getAllStudents();
-        List<Studant> sortedStudents = allStudents.stream()
-                .sorted(Comparator.comparingDouble(student -> (student.getTestOne() + student.getTestTwo() + student.getTestThree()) / 3.0))
-                .collect(Collectors.toList());
-        System.out.println("3 menores notas dos alunos:");
+    public static void listThreeWorstGrades(String[] args) {
+        List<Studant> students = StudentsBuilder.getAllStudents();
+
+        Map<Float, List<String>> scoreMap = new HashMap<>();
+        for (Studant student : students) {
+            scoreMap.computeIfAbsent(student.getTestOne(), k -> new ArrayList<>()).add(student.getName());
+            scoreMap.computeIfAbsent(student.getTestTwo(), k -> new ArrayList<>()).add(student.getName());
+            scoreMap.computeIfAbsent(student.getTestThree(), k -> new ArrayList<>()).add(student.getName());
+        }
     
-        float previousGrade = -1;
-        int position = 0;
-        for (Studant student : sortedStudents) {
-            float average = (student.getTestOne() + student.getTestTwo() + student.getTestThree()) / 3.0f;
-            if (average != previousGrade) {
-                position++;
-                if (position > 3) {
-                    break;
-                }
+        List<Float> orderedScores = scoreMap.keySet().stream().sorted().collect(Collectors.toList());
+        int position = 1;
+        System.out.println("Top 3 alunos com menor nota!");
+        for (Float score : orderedScores) {
+            List<String> studentsWithScore = scoreMap.get(score);
+            if (position > 3) {
+                break;
             }
-            System.out.println(position + "º - " + student.getName() + " : Nota = " + average);
-            previousGrade = average;
+            if (studentsWithScore.size() == 1) {
+                System.out.printf("%dº %s = nota %.1f\n", position++, studentsWithScore.get(0), score);
+            } else {
+                System.out.printf("%dº ", position);
+                for (int i = 0; i < studentsWithScore.size(); i++) {
+                    System.out.printf("%s = nota %.1f", studentsWithScore.get(i), score);
+                    if (i < studentsWithScore.size() - 1) {
+                        System.out.println(" - ");
+                       
+                    }
+                }
+                System.out.println();
+                position += studentsWithScore.size();
+            }
         }
     }
+    
 
     // 7. 
     public static void listStudentsOrderedByGrade(String[] args) {
@@ -127,8 +158,8 @@ public class Main {
         listStudentsNotPassed(args);
         findStudentsWithMaximumGrade(args);
         findStudentWithMinimumGrade(args);
-        listTopThreeStudents(args);
-        listBottomThreeStudents(args);
+        listThreeTopGrades(args);
+        listThreeWorstGrades(args);
         listStudentsOrderedByGrade(args);
     }
 }
