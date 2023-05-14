@@ -73,11 +73,16 @@ public class Main {
     
         List<Float> orderedScores = scoreMap.keySet().stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
         int position = 1;
-        System.out.println("Top 3 alunos com maior nota!");
+        int previousPosition = 0;
+        float previousScore = -1;
+        System.out.println("Top 3 maiores notas!");
         for (Float score : orderedScores) {
             List<String> studentsWithScore = scoreMap.get(score);
             if (position > 3) {
                 break;
+            }
+            if (score != previousScore) {
+                position = previousPosition + 1;
             }
             if (studentsWithScore.size() == 1) {
                 System.out.printf("%dº %s = nota %.1f\n", position++, studentsWithScore.get(0), score);
@@ -91,8 +96,10 @@ public class Main {
                     }
                 }
                 System.out.println();
-                position += studentsWithScore.size();
+                position += studentsWithScore.size() - 1;
+                previousPosition = position - 1;
             }
+            previousScore = score;
         }
     }
 
@@ -109,11 +116,16 @@ public class Main {
     
         List<Float> orderedScores = scoreMap.keySet().stream().sorted().collect(Collectors.toList());
         int position = 1;
-        System.out.println("Top 3 alunos com menor nota!");
+        int previousPosition = 0;
+        float previousScore = -1;
+        System.out.println("Top 3 menores notas!");
         for (Float score : orderedScores) {
             List<String> studentsWithScore = scoreMap.get(score);
             if (position > 3) {
                 break;
+            }
+            if (score == previousScore) {
+                position = previousPosition + 1;
             }
             if (studentsWithScore.size() == 1) {
                 System.out.printf("%dº %s = nota %.1f\n", position++, studentsWithScore.get(0), score);
@@ -122,13 +134,15 @@ public class Main {
                 for (int i = 0; i < studentsWithScore.size(); i++) {
                     System.out.printf("%s = nota %.1f", studentsWithScore.get(i), score);
                     if (i < studentsWithScore.size() - 1) {
-                        System.out.println(" - ");
-                       
+                        System.out.println("");
+                        System.out.print(" - ");
                     }
                 }
                 System.out.println();
-                position += studentsWithScore.size();
+                position += studentsWithScore.size() - 1;
+                previousPosition = position - 1;
             }
+            previousScore = score;
         }
     }
     
