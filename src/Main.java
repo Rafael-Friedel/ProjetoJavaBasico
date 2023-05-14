@@ -91,7 +91,6 @@ public class Main {
                 for (int i = 0; i < studentsWithScore.size(); i++) {
                     System.out.printf("%s = nota %.1f", studentsWithScore.get(i), score);
                     if (i < studentsWithScore.size() - 1) {
-                        System.out.println("");
                         System.out.print(" - ");
                     }
                 }
@@ -134,7 +133,6 @@ public class Main {
                 for (int i = 0; i < studentsWithScore.size(); i++) {
                     System.out.printf("%s = nota %.1f", studentsWithScore.get(i), score);
                     if (i < studentsWithScore.size() - 1) {
-                        System.out.println("");
                         System.out.print(" - ");
                     }
                 }
