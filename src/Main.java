@@ -2,6 +2,7 @@ import builders.StudentsBuilder;
 import entities.Studant;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 public class Main {
     // 1.
@@ -66,7 +67,7 @@ public class Main {
         System.out.println("Top 3 notas dos alunos:");
 
         float previousGrade = -1;
-        int position = 1;
+        int position = 0;
 
         for (Studant student : topThreeStudents) {
             float average = (student.getTestOne() + student.getTestTwo() + student.getTestThree()) / 3.0f;
